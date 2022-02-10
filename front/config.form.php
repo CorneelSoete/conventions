@@ -19,14 +19,15 @@ if (isset($_POST["delete"])){
 Html::displayErrorAndDie("lost");
 }
 
-$document_item   = new Document_Item();
+$document_item   = new Document_Item();;
 
 if (isset($_POST["add"])) {
     $document_item->check(1, CREATE, $_POST);
     //print_r($_POST);
     $type = $_POST['itemtype'];
     $_POST['itemtype'] = 'PluginConventionsConfig';
-    if ($document_item->add($_POST)) {
+    if (!$config->alreadyExists($_POST)) {
+        $document_item->add($_POST);
         Event::log($_POST["documents_id"], "documents", 4, "document",
                     //TRANS: %s is the user login
                     sprintf(__('%s adds a link with an item'), $_SESSION["glpiname"]));

@@ -4,6 +4,28 @@ class PluginConventionsConfig extends PluginConventionsCommon{
    static private $_instance = NULL;
    static $rightname = "config";
 
+
+   /**
+    * Check if relation already exists.
+    *
+    * @param array $input
+    *
+    * @return boolean
+    *
+    * @since 9.5.0
+    */
+    public function alreadyExists(array $input): bool {
+      $criteria = [
+         'documents_id'      => $input['documents_id'],
+         'itemtype'          => $input['itemtype'],
+         'language'          => $input['language'] ?? null
+      ];
+      if (array_key_exists('timeline_position', $input) && !empty($input['timeline_position'])) {
+         $criteria['timeline_position'] = $input['timeline_position'];
+      }
+      return countElementsInTable('glpi_plugin_conventions_config', $criteria) > 0;
+   }
+
    static function install(Migration $mig){
       global $DB;
 
@@ -41,9 +63,14 @@ class PluginConventionsConfig extends PluginConventionsCommon{
    }
 
    static function displayTabContentForItem(CommonGLPI $item, $tabnum = 1, $withtemplate = 0){
-      //if ($item->getType()=='Config') {
+      global $CFG_GLPI, $PLUGIN_HOOKS;
+      self::menu($item);
+
+      foreach ($PLUGIN_HOOKS['plugin_pdf'] as $type => $typepdf) {
+         $item = new $type;
          self::menu($item);
-      //}
+      }
+
       return true;
    }
 }

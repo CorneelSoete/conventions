@@ -14,6 +14,8 @@ class PluginConventionsDocument extends CommonDBTM{
       global $PLUGIN_HOOKS;
       $ID = $item->getField('id');
 
+      //print_r($item);
+
       if ($item->isNewID($ID)
          && !Document::canView()) {
          return false;
@@ -90,7 +92,7 @@ class PluginConventionsDocument extends CommonDBTM{
             echo "<tr class='tab_bg_1'>";
             echo "<td colspan='4' class='center'>";
             echo "<input type='hidden' name='itemtype' value='".$type."'>";
-            echo "<input type='hidden' name='items_id' value='".$item->getID()."'>";
+            echo "<input type='hidden' name='items_id' value='1'>";
             foreach ($CFG_GLPI['languages'] as $option => $value) {
                $options[$option] = $value[0];
             }

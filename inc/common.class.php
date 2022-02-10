@@ -42,7 +42,7 @@ class PluginConventionsCommon extends CommonDBTM{
       $config = new PluginConventionsConfig;
 
       echo "<table class='tab_cadre_fixe'>";
-      echo "<tr><th colspan='6'>Available language files";
+      echo "<tr><th colspan='6'>Available language files for: ".$item->getTypeName(1);
       echo "</th></tr></table>";
       $action = Toolbox::getItemTypeFormURL(get_class($config));
       
